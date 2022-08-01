@@ -1,4 +1,3 @@
-from distutils.log import info
 from urllib.error import HTTPError
 import requests
 from bs4 import BeautifulSoup as bs
