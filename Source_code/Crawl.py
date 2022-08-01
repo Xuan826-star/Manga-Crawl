@@ -18,9 +18,10 @@ def Search(ses:requests.Session,name:str):
         print('Request Fail')
         return None
 
-Name='我独自升级'
-Ses=requests.session()
-rtv=Search(Ses,Name)
-if rtv!=None:
-    print(rtv.text.find(Name))
+if __name__=='__main__':
+    Name='我独自升级'
+    Ses=requests.session()
+    rtv=Search(Ses,Name)
+    if rtv!=None:
+        print(rtv.text.find(Name))
 
