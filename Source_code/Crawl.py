@@ -38,6 +38,9 @@ def Parse_Search(res:requests.Response):
         rtls.append(dic)
     return rtls
 
+def Get_Chapters(ses:requests.Session,href:str):
+    '''Given the href
+    '''
 if __name__=='__main__':
     Name='我独自升级'
     Ses=requests.session()
