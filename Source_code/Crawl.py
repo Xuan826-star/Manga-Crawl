@@ -4,16 +4,16 @@ from bs4 import BeautifulSoup as bs
 
 base='https://www.baozimh.com/'
 
-def Search(ses:requests.Session,name:str):
+def Get_Response(ses:requests.Session,href:str,**kwargs):
     '''Search based on the name. Return the response.
 
     'ses' is the session object.
-    'name' is the target name.
+    'href' is the sub under the base url.
+    'kwargs' is the key words needed.
     
     '''
-    param={'q':name}
     try:
-        res=ses.get(base+'search',params=param)
+        res=ses.get(base+href,**kwargs)
         res.raise_for_status()
         res.encoding='utf-8'
         return res
@@ -37,16 +37,20 @@ def Parse_Search(res:requests.Response):
         dic['author']=info2.find('small').text.strip()
         rtls.append(dic)
     return rtls
-
-def Get_Chapters(ses:requests.Session,href:str):
-    '''Given the href
+def Parse_Chapters(res:requests.Response):
+    '''Parse the chapter result. Yield the dict of chapter&href. 50 chapters per time. 
     '''
+    pass
+
 if __name__=='__main__':
     Name='我独自升级'
+    param={'q':Name}
+    shref='search'
     Ses=requests.session()
-    rtv=Search(Ses,Name)
+    rtv=Get_Response(Ses,shref,params=param)
     if rtv!=None:
         # print(rtv.text.find(Name))
         rtls=Parse_Search(rtv)
-        print(rtls)
+        # print(rtls)
+
 
