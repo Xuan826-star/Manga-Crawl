@@ -101,6 +101,6 @@ if __name__=='__main__':
         current_path = os.path.abspath(__file__)
         dirname=os.path.dirname(current_path)
         for page in page_list:
-            Cache(page['src'],dirname+'\\..\\Cache\\')
+            Cache(page['src'],dirname+'\\Cache\\')
 
 
