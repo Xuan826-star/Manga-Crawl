@@ -67,15 +67,21 @@ def Parse_Pages(res:requests.Response):
         rtls.append(dir)
     return rtls
 
-def Rename(url):
+def Rename_Page(url):
     return url.split('scomic/')[-1].replace('/','_')
-    
-def Cache(url:str,path:str):
-    '''Download the page. 可改进协程
 
+def Rename_Cover(url):
+    return url.split('/')[-1]
+    
+def Cache(flag:int,url:str,path:str):
+    '''Download the page. 可改进协程
+    flag 1 for page, 0 for cover.
     '''
     down_res = requests.get(url)
-    filename=Rename(url)
+    if flag==0:
+        filename=Rename_Cover(url)
+    elif flag==1:
+        filename=Rename_Page(url)
     complete_path=path+filename
     if os.path.exists(complete_path)==False:
         with open(complete_path,'wb') as file:
@@ -97,10 +103,11 @@ if __name__=='__main__':
         chapter_list=Parse_Chapters(chapter_res)
         page_res=Get_Response(Ses,chapter_list[0][1])
         page_list=Parse_Pages(page_res)
-        # print(page_list)
+        print(page_list)
         current_path = os.path.abspath(__file__)
         dirname=os.path.dirname(current_path)
+        cache_path=dirname+'\\Cache\\'
         for page in page_list:
-            Cache(page['src'],dirname+'\\Cache\\')
+            Cache(1,page['src'],cache_path)
 
 
