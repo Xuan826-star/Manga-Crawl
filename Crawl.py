@@ -82,6 +82,7 @@ def Cache(flag:int,url:str,path:str):
         filename=Rename_Cover(url)
     elif flag==1:
         filename=Rename_Page(url)
+        print(filename)
     complete_path=path+filename
     if os.path.exists(complete_path)==False:
         with open(complete_path,'wb') as file:
