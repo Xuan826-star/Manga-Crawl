@@ -1,8 +1,6 @@
-
-from msilib.schema import Class
 from PySide2.QtWidgets import *
 from PySide2.QtUiTools import QUiLoader
-from PySide2.QtCore import QRegularExpression,QMargins
+from PySide2.QtCore import QRegularExpression
 from PySide2.QtGui import QPixmap
 from functools import partial
 import requests
