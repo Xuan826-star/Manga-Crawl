@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>683</width>
+    <width>798</width>
     <height>895</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -96,7 +102,7 @@
             <item>
              <widget class="QLabel" name="src_1">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -184,7 +190,7 @@
             <item>
              <widget class="QLabel" name="src_2">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -272,7 +278,7 @@
             <item>
              <widget class="QLabel" name="src_3">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -360,7 +366,7 @@
             <item>
              <widget class="QLabel" name="src_4">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -452,7 +458,7 @@
             <item>
              <widget class="QLabel" name="src_5">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -540,7 +546,7 @@
             <item>
              <widget class="QLabel" name="src_6">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -628,7 +634,7 @@
             <item>
              <widget class="QLabel" name="src_7">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -716,7 +722,7 @@
             <item>
              <widget class="QLabel" name="src_8">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -808,7 +814,7 @@
             <item>
              <widget class="QLabel" name="src_9">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -896,7 +902,7 @@
             <item>
              <widget class="QLabel" name="src_10">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -984,7 +990,7 @@
             <item>
              <widget class="QLabel" name="src_11">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -1072,7 +1078,7 @@
             <item>
              <widget class="QLabel" name="src_12">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>

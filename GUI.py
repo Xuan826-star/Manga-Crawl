@@ -1,12 +1,11 @@
 from PySide2.QtWidgets import *
 from PySide2.QtUiTools import QUiLoader
-from PySide2.QtCore import QRegularExpression
-from PySide2.QtGui import QPixmap
+from PySide2.QtCore import *
+from PySide2.QtGui import QPixmap,QFontMetrics
 from functools import partial
 import requests
 import os
 import Crawl
-
 
 one_re=QRegularExpression()
 one_re.setPattern('one.*')
@@ -27,7 +26,7 @@ class Home:
     
     def open_result_window(self,reslist):
         # 实例化另外一个窗口
-        self.result = Search(self.ses,reslist)
+        self.result = Search(self.ses,reslist,self)
         # 显示新窗口
         self.result.ui.show()
         self.ui.hide()
@@ -47,9 +46,10 @@ class Home:
 
 
 class Search(Home):
-    def __init__(self,session,reslist):
+    def __init__(self,session,reslist,parent):
         self.ses=session
         self.lst=reslist
+        self.pare=parent
         self.ui = QUiLoader().load(dirname+'\GUI\search.ui')
         self.ui.search_button.clicked.connect(self.search)
         onelst=self.ui.findChildren(QWidget,one_re)
@@ -57,11 +57,13 @@ class Search(Home):
         for i in range(onelen):
             Crawl.Cache(0,reslist[i]['src'],cache_path)
             picname=Crawl.Rename_Cover(reslist[i]['src'])
-            pixm=QPixmap(cache_path+picname)
+            pixm=QPixmap(cache_path+picname).scaled(170,225)
             each_cover=onelst[i].findChild(QLabel,'src_{}'.format(i+1))
             each_cover.setPixmap(pixm)
             each_name=onelst[i].findChild(QPushButton,'name_{}'.format(i+1))
-            each_name.setText(reslist[i]['title'])
+            FontM=QFontMetrics(each_name.font())
+            name_text=FontM.elidedText(reslist[i]['title'],Qt.ElideRight,170)#prevent long string that elongate the widget
+            each_name.setText(name_text)
             hf=reslist[i]['href']
             each_name.clicked.connect(partial(self.chapter,hf))
             each_author=onelst[i].findChild(QLabel,'author_{}'.format(i+1))
@@ -74,15 +76,20 @@ class Search(Home):
         if rtv!=None:
             reslist=Crawl.Parse_Chapters(rtv)
             print(reslist)
-            self.result = Chapter(self.ses,reslist)
+            self.result = Chapter(self.ses,reslist,self)
             self.ui.hide()
-
+    
+    def closeEvent(self,event):
+        self.pare.ui.show()
+        print('home page show again')
+        event.accept()
 
 class Chapter(QWidget):
-    def __init__(self,session,reslist):
+    def __init__(self,session,reslist,parent):
         super().__init__()
         self.ses=session
         self.lst=reslist
+        self.pare=parent
         rowlo=QHBoxLayout()
         collo=QVBoxLayout()
         scroll=QScrollArea()
@@ -110,18 +117,23 @@ class Chapter(QWidget):
         self.show()
 
     def page(self,href):
-        rtv=Crawl.Get_Response(self.ses,href)
+        rtv=Crawl.Get_Response(self.ses,href,self)
         if rtv!=None:
             reslist=Crawl.Parse_Pages(rtv)
             print(reslist)
             self.result = Page(self.ses,reslist)
-            self.hide()
+            self.ui.hide()
+    
+    def closeEvent(self,event):
+        self.pare.ui.show()
+        event.accept()
 
 class Page(QWidget):
-    def __init__(self,session,reslist):
+    def __init__(self,session,reslist,parent):
         super().__init__()
         self.ses=session
         self.lst=reslist
+        self.pare=parent
         collo=QVBoxLayout()
         scroll=QScrollArea()
         all=QWidget()
@@ -141,7 +153,10 @@ class Page(QWidget):
         self.setLayout(Pglo)
         self.setMinimumSize(750,1000)
         self.show()
-            
+
+    def closeEvent(self,event):
+        self.pare.ui.show()
+        event.accept()
 
 
 app = QApplication([])
