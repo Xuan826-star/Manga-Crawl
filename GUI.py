@@ -117,7 +117,7 @@ class Chapter(QWidget):
         self.show()
 
     def page(self,href):
-        rtv=Crawl.Get_Response(self.ses,href,self)
+        rtv=Crawl.Get_Response(self.ses,href)
         if rtv!=None:
             reslist=Crawl.Parse_Pages(rtv)
             print(reslist)
