@@ -1,7 +1,7 @@
 from urllib.error import HTTPError
 import requests
 from bs4 import BeautifulSoup as bs
-import os
+import os,re
 
 base='https://www.baozimh.com/'
 
@@ -44,7 +44,10 @@ def Parse_Chapters(res:requests.Response):
     '''
     rtls=[]
     soup=bs(res.text,'html.parser')
-    chapters=soup.find_all('a',class_='comics-chapters__item')
+    chaptershown=soup.find('div',id='chapter-items',class_='pure-g')
+    chapterhiden=soup.find('div',id='chapters_other_list',class_='pure-g')
+    chapters=chaptershown.find_all('a',class_='comics-chapters__item')
+    chapters+=chapterhiden.find_all('a',class_='comics-chapters__item')
     for chapter in chapters:
         name=chapter.text
         href=chapter.attrs['href']
@@ -58,13 +61,14 @@ def Parse_Pages(res:requests.Response):
     rtls=[]
     soup=bs(res.text,'html.parser')
     sub=soup.find('ul',class_='comic-contain')
-    pages=sub.find_all('amp-img')
-    for page in pages:
-        dir={}
-        dir['width']=page.attrs['width']
-        dir['height']=page.attrs['height']
-        dir['src']=page.attrs['src']
-        rtls.append(dir)
+    sample=sub.find('amp-img')
+    print(sample)
+    samplehref=sample.attrs['src']
+    txt=sample.find('em').text
+    pgnum=int(txt.split('/')[-1])
+    for i in range(1,pgnum+1):
+        next_url = re.sub('(\d+).jpg', str(i)+'.jpg', samplehref)
+        rtls.append(next_url)
     return rtls
 
 def Rename_Page(url):
@@ -109,6 +113,6 @@ if __name__=='__main__':
         dirname=os.path.dirname(current_path)
         cache_path=dirname+'\\Cache\\'
         for page in page_list:
-            Cache(1,page['src'],cache_path)
+            Cache(1,page,cache_path)
 
 
