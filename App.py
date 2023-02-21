@@ -1,13 +1,22 @@
-from ast import Str
+
 from PySide2.QtWidgets import *
 from PySide2.QtCore import *
 from PySide2.QtGui import QPixmap,QFontMetrics
-from functools import partial
-import Crawl,os,requests,time
+import pandas as pd
+import Crawl,os,requests,threading
 current_path = os.path.abspath(__file__)
 dirname=os.path.dirname(current_path)
 cache_path=dirname+'\\Cache\\'
 ses=requests.session()
+flag_Prep=1#wheter to prepare the content for next chapter while reading
+f_history=open('history.csv','r')
+lines=f_history.readlines()
+#structure:
+# img,title,author,chapter
+for i in range(len(lines)):
+    line=lines[i].strip().split(',')
+    lines[i]=line
+df_history=pd.DataFrame(line,columns=['img','title','author','chapter'])
 
 class ClickableLabel(QLabel):
     def __int__(self,href=None):
@@ -29,7 +38,7 @@ class ClickableLabel(QLabel):
         self.setToolTip(self.href)  ##Stay Hint
 
 class BookFace(QWidget):
-    def __init__(self,pare:QWidget,img:QPixmap,title:Str,author:Str,href:Str):
+    def __init__(self,pare:QWidget,img:QPixmap,title:str,author:str,href:str):
         super().__init__()
         self.pare=pare
         self.img=img
@@ -69,6 +78,10 @@ class BookFace(QWidget):
             self.pare.hide()
             self.result.show()
 
+    def storeHistory(self):
+        pass
+
+
 class HomePage(QWidget):
     def __init__(self,session=ses):
         super().__init__()
@@ -97,6 +110,9 @@ class HomePage(QWidget):
         wg_sc.setLayout(lo_H1)
         return wg_sc
     
+    def CreateHistory(self):
+        pass
+
     def OpenResultPage(self):
         #Open the Result Page Based on the Input Text
         tb=self.findChild(QPlainTextEdit)
@@ -147,6 +163,7 @@ class ChapterButton(QPushButton):
         super().__init__(text=name)
         self.this=thishref
         self.pare=pare
+        self.preped=0
         self.clicked.connect(self.OpenPages)
 
     def SetNextb(self,nextb):
@@ -160,7 +177,7 @@ class ChapterButton(QPushButton):
         if rtv!=None:
             reslist=Crawl.Parse_Pages(rtv)
             print(reslist)
-            self.result = Pages(self,reslist)
+            self.result = Pages(self,reslist,self.preped)
             self.pare.hide()
             self.result.show()
 
@@ -206,7 +223,7 @@ class ChapterPage(QWidget):
         event.accept()
 
 class Pages(QWidget):
-    def __init__(self,pare:ChapterButton,reslist,session=ses):
+    def __init__(self,pare:ChapterButton,reslist,preped=0,session=ses):
         super().__init__()
         self.ses=session
         self.lst=reslist
@@ -217,12 +234,14 @@ class Pages(QWidget):
         all.setLayout(collo)
         collo.setSpacing(0)
         for i in reslist:
-            Crawl.Cache(1,i,cache_path)
+            if not preped:
+                Crawl.Cache(1,i,cache_path)
             picname=Crawl.Rename_Page(i)
             pixm=QPixmap(cache_path+picname)
             lb=QLabel()
             lb.setPixmap(pixm)
             collo.addWidget(lb)
+        self.pare.preped=1
         scroll.setMinimumSize(750,400)
         scroll.setWidget(all)
         Pglo=QVBoxLayout()
@@ -250,9 +269,21 @@ class Pages(QWidget):
         Pglo.addWidget(wg_bf)
         self.setLayout(Pglo)
         self.setMinimumSize(750,1000)
+        if flag_Prep!=0 and self.pare.nextb!=None and self.pare.nextb.preped==0:
+            self.pare.nextb.preped=flag_Prep
+            Td_Prep=threading.Thread(target=self.PrepareNext)
+            Td_Prep.start()
 
     def PopNoneMessage(self):
         Mes=QMessageBox.warning(self,'Warning','There is no more chapter.')
+
+    def PrepareNext(self):
+        if self.pare.nextb!=None:
+            rtv=Crawl.Get_Response(ses,self.pare.nextb.this)
+            if rtv!=None:
+                reslist=Crawl.Parse_Pages(rtv)
+                for i in reslist:
+                    Crawl.Cache(1,i,cache_path)
 
     def BacktoMeun(self):
         self.pare.pare.show()

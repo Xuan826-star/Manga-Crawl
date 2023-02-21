@@ -75,7 +75,8 @@ def Rename_Page(url):
     return url.split('scomic/')[-1].replace('/','_')
 
 def Rename_Cover(url):
-    return url.split('/')[-1]
+    ret=url.split('/')[-1]
+    return ret
     
 def Cache(flag:int,url:str,path:str):
     '''Download the page. 可改进协程
