@@ -5,7 +5,7 @@ from PySide2.QtGui import QPixmap,QFontMetrics
 from functools import partial
 import requests
 import os
-import Crawl
+import pyqt5_version_aborted.Crawl as Crawl
 
 one_re=QRegularExpression()
 one_re.setPattern('one.*')

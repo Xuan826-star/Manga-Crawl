@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup as bs
 import os,re
 
-base='https://www.baozimh.com/'
+base='https://baozimh.org/'
 
 def Get_Response(ses:requests.Session,href:str,**kwargs):
     '''Search based on the name. Return the response.
@@ -97,7 +97,7 @@ def Cache(flag:int,url:str,path:str):
 
 if __name__=='__main__':
     Name='我独自升级'
-    param={'q':Name}
+    param={'s':Name}
     shref='search'
     Ses=requests.session()
     rtv=Get_Response(Ses,shref,params=param)

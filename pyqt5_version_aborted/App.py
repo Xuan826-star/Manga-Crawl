@@ -3,7 +3,7 @@ from PySide2.QtWidgets import *
 from PySide2.QtCore import *
 from PySide2.QtGui import QPixmap,QFontMetrics
 import pandas as pd
-import Crawl,os,requests,threading
+import pyqt5_version_aborted.Crawl as Crawl,os,requests,threading
 current_path = os.path.abspath(__file__)
 dirname=os.path.dirname(current_path)
 cache_path=dirname+'\\Cache\\'
